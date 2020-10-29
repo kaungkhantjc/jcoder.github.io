@@ -1,0 +1,15 @@
+.icon {
+    font-size: 18px !important;
+    margin-right: 10px;
+    transform: translate(0, 4px);
+}
+
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+

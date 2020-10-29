@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>JCoder Dev Tools - Base64 Decoder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<nav class="noSelect">
+    <div class="nav-wrapper blue">
+        <span style="font-size: 25px;">Base64 Decoder</span>
+        <ul class="left">
+            <li>
+                <a href="index.html"><span class="icon material-icons">arrow_back</span></a>
+            </li>
+        </ul>
+        <ul class="right">
+            <li>
+                <a id="btnCopy" data-clipboard-action="copy" data-clipboard-target="#tvResult"
+                   class="waves-effect waves-light" onclick="copyResult()"><span
+                        class="icon material-icons">content_copy</span>Copy</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <div style="padding: 10px" class="row">
+        <div class=" col s12 l6 noSelect">
+            <div class="input-field">
+                <textarea style="height: auto" rows="10" id="edt1" class="materialize-textarea"></textarea>
+                <label for="edt1">Enter base64 text</label>
+            </div>
+        </div>
+
+        <div class="col s12 l6">
+            <div class="row">
+                <hr class="left blue hide-on-small-only"
+                    style="width: 1px; height: 230px; display: inline-block;">
+                <span id="tvResult" style="padding: 30px; word-wrap: break-word; width: 90%" class="col"></span>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script>
+    let edt = document.getElementById("edt1");
+    let tvResult = document.getElementById("tvResult");
+
+    let clipboard = new ClipboardJS('#btnCopy');
+    clipboard.on('success', function (e) {
+        e.clearSelection();
+    });
+
+    edt.addEventListener("input", function () {
+        let str = edt.value;
+        str = Base64.decode(str);
+        tvResult.innerText = str;
+    });
+
+    function copyResult() {
+        M.toast({html: 'Result copied to clipboard.'})
+    }
+
+</script>
+
+</body>
+</html>
