@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Base64 Encoder</title>
+    <title>Unescape String</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
@@ -12,7 +12,7 @@
 
 <nav class="noSelect">
     <div class="nav-wrapper blue">
-        <span style="font-size: 25px;">Base64 Encoder</span>
+        <span style="font-size: 25px;">Unescape String</span>
         <ul class="left">
             <li>
                 <a href="index.html"><span class="icon material-icons">arrow_back</span></a>
@@ -33,7 +33,7 @@
         <div class=" col s12 l6 noSelect">
             <div class="input-field">
                 <textarea style="height: auto" rows="10" id="edt1" class="materialize-textarea"></textarea>
-                <label for="edt1">Enter text to encode</label>
+                <label for="edt1">Enter text</label>
             </div>
         </div>
 
@@ -60,16 +60,24 @@
         e.clearSelection();
     });
 
+    function unescapeUnicode(str){
+        return str.replace(
+            /\\u([0-9a-f]{4})/g,
+            function (whole, group1) {
+                return String.fromCharCode(parseInt(group1, 16));
+            }
+        );
+    }
+
     edt.addEventListener("input", function () {
         let str = edt.value;
-        str = Base64.encode(str);
+        str = unescapeUnicode(str);
         tvResult.innerText = str;
     });
 
     function copyResult() {
         M.toast({html: 'Result copied to clipboard.'})
     }
-
 
 </script>
 

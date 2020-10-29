@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>String Utilities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<style>
+    li.listBtn {
+        margin: 10px;
+    }
+</style>
+<body>
+
+<nav class="noSelect">
+    <div class="nav-wrapper blue">
+        <span style="font-size: 25px;">String Utilities</span>
+        <ul class="left">
+            <li>
+                <a href="index.html"><span class="icon material-icons">arrow_back</span></a>
+            </li>
+        </ul>
+        <ul class="right">
+            <li>
+                <a id="btnCopy" data-clipboard-action="copy" data-clipboard-target="#tvResult"
+                   class="waves-effect waves-light" onclick="copyResult()"><span
+                        class="icon material-icons">content_copy</span>Copy</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <div style="padding: 10px">
+        <div class="noSelect">
+            <div class="input-field">
+                <textarea style="height: auto" rows="6" id="edt1" class="materialize-textarea"></textarea>
+                <label for="edt1">Enter text</label>
+            </div>
+        </div>
+
+        <ul class="pagination">
+            <li class="listBtn">
+                <button onclick="upperCase()" class="collection-item btn waves-effect waves-light blue" type="submit"
+                        name="action">Uppercase
+                    <i class="material-icons right">keyboard_arrow_up</i>
+                </button>
+            </li>
+            <li class="listBtn">
+                <button onclick="lowerCase()" class="collection-item btn waves-effect waves-light blue" type="submit"
+                        name="action">Lowercase
+                    <i class="material-icons right">keyboard_arrow_down</i>
+                </button>
+            </li>
+            <li class="listBtn">
+                <button onclick="countCharacters()" class="collection-item btn waves-effect waves-light blue"
+                        type="submit" name="action">Character
+                    count
+                    <i class="material-icons right">text_format</i>
+                </button>
+            </li>
+            <li class="listBtn">
+                <button onclick="countWords()" class="collection-item btn waves-effect waves-light blue" type="submit"
+                        name="action">Word count
+                    <i class="material-icons right">search</i>
+                </button>
+            </li>
+            <li class="listBtn">
+                <button onclick="reverseString()" class="collection-item btn waves-effect waves-light blue"
+                        type="submit" name="action">Reverse
+                    <i class="material-icons right">undo</i>
+                </button>
+            </li>
+        </ul>
+
+        <span id="tvResult" style="padding: 30px; word-wrap: break-word; width: 90%" class="col">fdfs</span>
+
+
+    </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script>
+    let edt = document.getElementById("edt1");
+    let tvResult = document.getElementById("tvResult");
+
+    let clipboard = new ClipboardJS('#btnCopy');
+    clipboard.on('success', function (e) {
+        e.clearSelection();
+    });
+
+    function copyResult() {
+        M.toast({html: 'Result copied to clipboard.'})
+    }
+
+    function upperCase() {
+        let str = edt.value;
+        tvResult.innerText = str.toUpperCase();
+    }
+
+    function lowerCase() {
+        let str = edt.value;
+        tvResult.innerText = str.toLowerCase();
+    }
+
+    function countCharacters() {
+        let str = edt.value;
+        tvResult.innerText = str.length;
+    }
+
+    function getWordCounts(str) {
+        return str.split(' ')
+            .filter(function (n) {
+                return n !== ''
+            })
+            .length;
+    }
+
+    function countWords() {
+        let str = edt.value;
+        tvResult.innerText = getWordCounts(str);
+    }
+
+    function reverseString() {
+        let str = edt.value;
+        tvResult.innerText = str.split('').reverse().join('');
+    }
+</script>
+
+</body>
+</html>
