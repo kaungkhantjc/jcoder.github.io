@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AES ECB Encrypt</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<nav class="noSelect">
+    <div class="nav-wrapper blue darken-1">
+        <span style="font-size: 25px;">AES ECB Encrypt</span>
+        <ul class="left">
+            <li>
+                <a href="index.html"><span class="icon material-icons">arrow_back</span></a>
+            </li>
+        </ul>
+        <ul class="right">
+            <li>
+                <a id="btnCopy" data-clipboard-action="copy" data-clipboard-target="#tvResult"
+                   class="waves-effect waves-light" onclick="copyResult()"><span
+                        class="icon material-icons">content_copy</span>Copy</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <div style="padding: 10px">
+        <div class="noSelect">
+            <div class="input-field">
+                <textarea style="height: auto" rows="5" id="edtUserInput" class="materialize-textarea"></textarea>
+                <label for="edtUserInput">Enter text to encrypt</label>
+            </div>
+        </div>
+
+        <div class="row valign-wrapper">
+            <div class="input-field col s6">
+                <input placeholder="Enter Password" id="edtPassword" type="text" class="validate">
+                <label for="edtPassword">Password</label>
+            </div>
+
+            <div class="col s6">
+                <button onclick="encryptText()" class="collection-item btn waves-effect waves-light blue" type="submit"
+                        name="action"><i class="material-icons right">lock</i> Encrypt
+                </button>
+            </div>
+        </div>
+
+        <span id="tvResult" style="padding: 30px; word-wrap: break-word; width: 90%" class="col"></span>
+
+    </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"
+        integrity="sha512-nOQuvD9nKirvxDdvQ9OMqe2dgapbPB7vYAMrzJihw5m+aNcf0dX53m6YxM4LgA9u8e9eg9QX+/+mPu8kCNpV2A=="
+        crossorigin="anonymous"></script>
+<script>
+    let edtUserInput = document.getElementById("edtUserInput");
+    let edtPassword = document.getElementById("edtPassword");
+    let tvResult = document.getElementById("tvResult");
+
+    let clipboard = new ClipboardJS('#btnCopy');
+    clipboard.on('success', function (e) {
+        e.clearSelection();
+    });
+
+    function copyResult() {
+        M.toast({html: 'Result copied to clipboard.'})
+    }
+
+    function encryptText() {
+        let str = edtUserInput.value;
+        let password = edtPassword.value;
+
+        let encrypted = CryptoJS.AES.encrypt(str, password, {mode: CryptoJS.mode.ECB});
+        tvResult.innerText = encrypted.toString();
+    }
+
+</script>
+
+</body>
+</html>

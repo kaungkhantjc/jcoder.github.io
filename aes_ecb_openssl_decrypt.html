@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AES ECB OpenSSL Encrypt</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<nav class="noSelect">
+    <div class="nav-wrapper blue darken-1">
+        <span style="font-size: 25px;">AES ECB OpenSSL Encrypt</span>
+        <ul class="left">
+            <li>
+                <a href="index.html"><span class="icon material-icons">arrow_back</span></a>
+            </li>
+        </ul>
+        <ul class="right">
+            <li>
+                <a id="btnCopy" data-clipboard-action="copy" data-clipboard-target="#tvResult"
+                   class="waves-effect waves-light" onclick="copyResult()"><span
+                        class="icon material-icons">content_copy</span>Copy</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <div style="padding: 10px">
+        <div class="noSelect">
+            <div class="input-field">
+                <textarea style="height: auto" rows="5" id="edtUserInput" class="materialize-textarea"></textarea>
+                <label for="edtUserInput">Enter text to encrypt</label>
+            </div>
+        </div>
+
+        <div class="row valign-wrapper">
+            <div class="input-field col s6">
+                <input placeholder="Enter Password" id="edtPassword" type="text" class="validate">
+                <label for="edtPassword">Password</label>
+            </div>
+
+            <div class="col s6">
+                <button id="btn" onclick="decryptText()" class="collection-item btn waves-effect waves-light blue"
+                        type="submit"
+                        name="action"><i class="material-icons right">lock</i> Encrypt
+                </button>
+            </div>
+        </div>
+
+        <div style="padding: 30px; word-wrap: break-word; width: 90%" class="col valign-wrapper">
+
+            <div id="loadingProgress" class="preloader-wrapper small active hide">
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-yellow">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+
+            <span id="tvResult" class="hide"></span>
+        </div>
+    </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script>
+    let edtUserInput = document.getElementById("edtUserInput");
+    let edtPassword = document.getElementById("edtPassword");
+    let tvResult = document.getElementById("tvResult");
+    let loadingProgress = document.getElementById("loadingProgress");
+    let btn = document.getElementById("btn");
+
+    let clipboard = new ClipboardJS('#btnCopy');
+    clipboard.on('success', function (e) {
+        e.clearSelection();
+    });
+
+    function copyResult() {
+        M.toast({html: 'Result copied to clipboard.'})
+    }
+
+    function decryptText() {
+        btn.disabled = true;
+        let str = encodeURIComponent(edtUserInput.value);
+        let password = encodeURIComponent(edtPassword.value);
+
+        let url = "https://prodevmm.000webhostapp.com/cypher/aes/?decrypt&value=" + str + "&pw=" + password;
+
+        if (!tvResult.classList.contains("hide")) tvResult.classList.add("hide")
+        loadingProgress.classList.remove("hide")
+
+        async function fetchTest() {
+            let response = await fetch(url);
+            tvResult.innerText = await response.text()
+            loadingProgress.classList.add("hide")
+            tvResult.classList.remove("hide")
+            btn.removeAttribute("disabled")
+        }
+
+        (async() => {
+            await fetchTest();
+        })();
+
+    }
+
+</script>
+</body>
+</html>
